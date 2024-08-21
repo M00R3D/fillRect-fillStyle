@@ -24,3 +24,10 @@ ctx.arc(200, 75, 30, 0, Math.PI, false);
 ctx.fillStyle = "rgb(248, 49, 110)"; 
 ctx.fill();
 ctx.stroke();
+
+ctx.font = "30px Arial";
+
+ctx.fillStyle = "rgb(0, 0, 0)"; 
+ctx.fillText("Texto", 50, 170); 
+ctx.strokeStyle = "rgb(255, 220, 125)"; 
+ctx.strokeText("Texto", 50, 170);
