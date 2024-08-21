@@ -9,5 +9,18 @@ ctx.fillStyle = "rgb(248, 149, 0)";
 ctx.fillRect(10, 10, 150, 100);
 ctx.fillStyle = "rgb(117, 23, 205)";
 ctx.fillRect(40, 40, 150, 100);
-ctx.fillStyle = "rgb(233, 8, 173)";
+ctx.fillStyle = "rgb(248, 149, 0)";
 ctx.fillRect(25, 25, 150, 100);
+
+ctx.beginPath();
+ctx.arc(200, 75, 50, 0, 2 * Math.PI);
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(300, 75, 50, 0, 2 * Math.PI);
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(200, 75, 30, 0, Math.PI, false); 
+ctx.fillStyle = "rgb(248, 49, 110)"; 
+ctx.fill();
+ctx.stroke();
