@@ -31,16 +31,26 @@ const ctx = canvas.getContext("2d");
 // ctx.fillText("Texto", 50, 170); 
 // ctx.strokeStyle = "rgb(255, 220, 125)"; 
 // ctx.strokeText("Texto", 50, 170);
-
+ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
 canvas.addEventListener("click", function(event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;const y = event.clientY - rect.top;
 
     ctx.beginPath();
     ctx.arc(x, y, 50, 0, 2 * Math.PI); 
-    ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
     ctx.fill();
     ctx.lineWidth = 2; 
     ctx.strokeStyle = "blue";
     ctx.stroke();
 });
+
+canvas.addEventListener("mouseout", function(event) {
+    ctx.fillStyle = getRandomColor();
+});
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');         var color = '#';
+
+    for (var i = 0; i < 6; i++ ) {color += letters[Math.round(Math.random() * 15)];}
+    return color;
+}
