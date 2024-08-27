@@ -13,10 +13,15 @@ document.addEventListener("keypress", function(event)
 {
     console.log("Tecla presionada: " + event.key);
     
-    if(event.key=="a" || event.key=="A"){player.x=player.x-2}
-    if(event.key=="d" || event.key=="D"){player.x=player.x+2}
-    if(event.key=="w" || event.key=="W"){player.y=player.y-2}
-    if(event.key=="s" || event.key=="S"){player.y=player.y+2}
+    if(event.key=="a" || event.key=="A"){player.x=player.x-6}
+    if(event.key=="d" || event.key=="D"){player.x=player.x+6}
+    if(event.key=="w" || event.key=="W"){player.y=player.y-6}
+    if(event.key=="s" || event.key=="S"){player.y=player.y+6}
+
+    if(player.x<0){player.x=player.x+canvas.width-1}
+    if(player.y<0){player.y=player.y+canvas.height-1}
+    if(player.x>canvas.width){player.x=0}
+    if(player.y>canvas.height){player.y=0}
     ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = getRandomColor();
