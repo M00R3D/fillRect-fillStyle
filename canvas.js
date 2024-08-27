@@ -1,13 +1,13 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-fillStyle = "rgba(100, 149, 237, 0.5)";
 const player = 
 {
-    x: 50,      y: 50,      width: 50,      height: 50,     color: 'red'
+    x: 150,      y: 50,      width: 50,      height: 50,     color: 'red'
 };
-ctx.fillStyle = player.color;
+ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = getRandomColor();
 ctx.fillRect(player.x, player.y, player.width, player.height);
-
 
 document.addEventListener("keypress", function(event) 
 {
@@ -17,10 +17,8 @@ document.addEventListener("keypress", function(event)
     if(event.key=="d" || event.key=="D"){player.x=player.x+2}
     if(event.key=="w" || event.key=="W"){player.y=player.y-2}
     if(event.key=="s" || event.key=="S"){player.y=player.y+2}
-
     ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.fillStyle = getRandomColor();
     ctx.fillRect(player.x, player.y, player.width, player.height);
 });
