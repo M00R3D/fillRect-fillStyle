@@ -3,6 +3,7 @@ const ctx = canvas.getContext("2d");
 const player = 
 {
     x: 150,      y: 50,      width: 50,      height: 50,     color: 'red'
+    , direction:"up"    , spd:22
 };
 ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -10,23 +11,50 @@ ctx.fillStyle = getRandomColor();
 ctx.fillRect(player.x, player.y, player.width, player.height);
 
 document.addEventListener("keypress", function(event) 
-{
-    console.log("Tecla presionada: " + event.key);
-    
-    if(event.key=="a" || event.key=="A"){player.x=player.x-6}
-    if(event.key=="d" || event.key=="D"){player.x=player.x+6}
-    if(event.key=="w" || event.key=="W"){player.y=player.y-6}
-    if(event.key=="s" || event.key=="S"){player.y=player.y+6}
+{ 
+    if(event.key=="a" || event.key=="A"){player.direction="left"}
+    if(event.key=="d" || event.key=="D"){player.direction="right"}
+    if(event.key=="w" || event.key=="W"){player.direction="up"}
+    if(event.key=="s" || event.key=="S"){player.direction="down"}
+    console.log("player.direction: " + player.direction);
+});
 
+
+function update(event) {
+    switch (player.direction) {
+        case "up":
+            player.y=player.y-player.spd
+            break;
+        case "down":
+            player.y=player.y+player.spd
+            break;
+        case "left":
+            player.x=player.x-player.spd
+            break;
+        case "right":
+            player.x=player.x+player.spd
+            break;
+        
+    }
     if(player.x<0){player.x=player.x+canvas.width-1}
     if(player.y<0){player.y=player.y+canvas.height-1}
     if(player.x>canvas.width){player.x=0}
     if(player.y>canvas.height){player.y=0}
+}
+
+function draw(event) {
+
     ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = getRandomColor();
     ctx.fillRect(player.x, player.y, player.width, player.height);
-});
+    update(event);
+    requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+    
+    
+
 function getRandomColor() 
 {
     var letters = '0123456789ABCDEF'.split('');         var color = '#';
