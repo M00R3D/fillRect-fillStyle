@@ -17,6 +17,8 @@ document.addEventListener("keypress", function(event)
     if(event.key=="w" || event.key=="W"){player.direction="up"}
     if(event.key=="s" || event.key=="S"){player.direction="down"}
     console.log("player.direction: " + player.direction);
+    if(event.key=="Enter" ){player.spd=player.spd+2;}
+    
 });
 
 
@@ -50,6 +52,11 @@ function draw(event) {
     ctx.fillRect(player.x, player.y, player.width, player.height);
     update(event);
     requestAnimationFrame(draw);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "rgb(0, 0, 0)"; 
+    ctx.fillText("speed: "+player.spd,810, 70); 
+    // ctx.strokeStyle = "rgb(255, 220, 125)"; 
+    // ctx.strokeText("Texto", 50, 170);
 }
 requestAnimationFrame(draw);
     
