@@ -3,7 +3,11 @@ const ctx = canvas.getContext("2d");
 const player = 
 {
     x: 150,      y: 50,      width: 50,      height: 50,     color: 'red'
-    , direction:"up"    , spd:22
+    , direction:"up"    , spd:12
+};
+const objeto = 
+{
+    x: 150,      y: 50,      width: 20,      height: 20,     color: 'red'
 };
 ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -42,6 +46,11 @@ function update(event) {
     if(player.y<0){player.y=player.y+canvas.height-1}
     if(player.x>canvas.width){player.x=0}
     if(player.y>canvas.height){player.y=0}
+
+    if(checkCollision(player,objeto)){
+        objeto.x = Math.random() * (canvas.width - objeto.width);
+        objeto.y = Math.random() * (canvas.height - objeto.height);
+    }
 }
 
 function draw(event) {
@@ -50,6 +59,8 @@ function draw(event) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = getRandomColor();
     ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.fillStyle = objeto.color;
+    ctx.fillRect(objeto.x, objeto.y, objeto.width, objeto.height);
     update(event);
     requestAnimationFrame(draw);
     ctx.font = "30px Arial";
@@ -69,6 +80,12 @@ function getRandomColor()
     return color;
 }
 
+function checkCollision(rect1, rect2) {
+    return rect1.x < rect2.x + rect2.width &&
+           rect1.x + rect1.width > rect2.x &&
+           rect1.y < rect2.y + rect2.height &&
+           rect1.y + rect1.height > rect2.y;
+}
 
 // ctx.fillStyle = "gray";
 // ctx.fillRect(0, 0, 500, 500);
