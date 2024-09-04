@@ -1,25 +1,34 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+let pausa = -1;
 const player = 
 {
     x: 150,      y: 50,      width: 50,      height: 50,     color: 'red'
-    , direction:"up"    , spd:12
+    , direction:"up"    , spd:12, points :0
 };
 const objeto = 
 {
     x: 150,      y: 50,      width: 20,      height: 20,     color: 'red'
 };
+const walls=
+[ { x: 50, y: 100, width: 200, height: 20, color: 'blue' },
+    { x: 300, y: 200, width: 20, height: 200, color: 'blue' },
+    { x: 100, y: 300, width: 200, height: 20, color: 'blue' }]
 ctx.fillStyle = "rgba(100, 149, 237, 0.5)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = getRandomColor();
 ctx.fillRect(player.x, player.y, player.width, player.height);
 
-document.addEventListener("keypress", function(event) 
+document.addEventListener("keydown", function(event) 
 { 
     if(event.key=="a" || event.key=="A"){player.direction="left"}
     if(event.key=="d" || event.key=="D"){player.direction="right"}
     if(event.key=="w" || event.key=="W"){player.direction="up"}
     if(event.key=="s" || event.key=="S"){player.direction="down"}
+    if(event.key=="p" || event.key=="P")
+        {
+            pausa = (pausa === -1) ? 1 : -1;
+        }
     console.log("player.direction: " + player.direction);
     if(event.key=="Enter" ){player.spd=player.spd+2;}
     
@@ -27,29 +36,44 @@ document.addEventListener("keypress", function(event)
 
 
 function update(event) {
-    switch (player.direction) {
-        case "up":
-            player.y=player.y-player.spd
-            break;
-        case "down":
-            player.y=player.y+player.spd
-            break;
-        case "left":
-            player.x=player.x-player.spd
-            break;
-        case "right":
-            player.x=player.x+player.spd
-            break;
-        
-    }
-    if(player.x<0){player.x=player.x+canvas.width-1}
-    if(player.y<0){player.y=player.y+canvas.height-1}
-    if(player.x>canvas.width){player.x=0}
-    if(player.y>canvas.height){player.y=0}
-
-    if(checkCollision(player,objeto)){
-        objeto.x = Math.random() * (canvas.width - objeto.width);
-        objeto.y = Math.random() * (canvas.height - objeto.height);
+    if(pausa===-1)
+    {
+        switch (player.direction) {
+            case "up":
+                player.y=player.y-player.spd
+                break;
+            case "down":
+                player.y=player.y+player.spd
+                break;
+            case "left":
+                player.x=player.x-player.spd
+                break;
+            case "right":
+                player.x=player.x+player.spd
+                break;
+            
+        }
+        if(player.x<0){player.x=player.x+canvas.width-1}
+        if(player.y<0){player.y=player.y+canvas.height-1}
+        if(player.x>canvas.width){player.x=0}
+        if(player.y>canvas.height){player.y=0}
+    
+        if(checkCollision(player,objeto)){
+            player.points+=1;
+    
+            objeto.x = Math.random() * (canvas.width - objeto.width);
+            objeto.y = Math.random() * (canvas.height - objeto.height);
+        }
+        walls.forEach(wall => {
+            if (checkCollision(player, wall)) {
+                switch (player.direction) {
+                    case "up": player.y = wall.y + wall.height; break;
+                    case "down": player.y = wall.y - player.height; break;
+                    case "left": player.x = wall.x + wall.width; break;
+                    case "right": player.x = wall.x - player.width; break;
+                }
+            }
+        });
     }
 }
 
@@ -66,6 +90,17 @@ function draw(event) {
     ctx.font = "30px Arial";
     ctx.fillStyle = "rgb(0, 0, 0)"; 
     ctx.fillText("speed: "+player.spd,810, 70); 
+    ctx.fillText("puntaje: "+player.points,610, 70); 
+    walls.forEach(wall => {
+        ctx.fillStyle = "rgb(0, 0, 0)"; 
+        ctx.fillRect(wall.x, wall.y, wall.width, wall.height);
+    });
+    if(pausa===1)
+    {
+        ctx.font = "70px Arial";
+        ctx.fillText("PAUSA",500,500); 
+    }
+
     // ctx.strokeStyle = "rgb(255, 220, 125)"; 
     // ctx.strokeText("Texto", 50, 170);
 }
